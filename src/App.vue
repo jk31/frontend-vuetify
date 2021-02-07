@@ -1,10 +1,13 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-btn to="/" color="accent" rounded>Home</v-btn>
+      <v-btn class="mx-2" color="accent">Home</v-btn>
       <v-spacer></v-spacer>
-      <v-btn to="/login" color="accent" rounded>Login</v-btn>
-      <v-btn to="/about" color="accent" rounded>About</v-btn>
+      <v-btn class="mx-2" :color="isAuthenticated ? 'success' : 'error'">{{
+        isAuthenticated ? "Authenticated" : "Not Authenticated"
+      }}</v-btn>
+      <v-btn class="mx-2" to="/login" color="accent">Login</v-btn>
+      <v-btn class="mx-2" to="/about" color="accent">About</v-btn>
     </v-app-bar>
 
     <v-main>
@@ -14,7 +17,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  name: "App"
+  name: "App",
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  }
 };
 </script>
