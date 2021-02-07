@@ -2,7 +2,7 @@
   <div class="pa-md-4 mx-auto" style="max-width:600px;">
     <v-card elevation="2">
       <v-form @submit.prevent="login" class="pa-6" ref="form" lazy-validation>
-        <v-text-field v-model="username" label="Name" required></v-text-field>
+        <v-text-field v-model="email" label="Email" required></v-text-field>
 
         <v-text-field
           v-model="password"
@@ -25,14 +25,14 @@
 export default {
   name: "Login",
   data: () => ({
-    username: "",
+    email: "",
     password: "",
     show: false
   }),
   methods: {
     login() {
       this.$store.dispatch("login", {
-        username: this.username,
+        email: this.email,
         password: this.password
       });
     }

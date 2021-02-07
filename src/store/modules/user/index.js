@@ -37,7 +37,7 @@ const actions = {
           Accept: "application/json"
         },
         data: {
-          username: payload.username,
+          email: payload.email,
           password: payload.password
         }
       });
