@@ -5,7 +5,7 @@
         Login
       </p>
 
-      <v-form @submit.prevent="login" lazy-validation>
+      <v-form @submit.prevent="createAccount" ref="form" lazy-validation>
         <v-text-field v-model="email" label="Email" required></v-text-field>
 
         <v-text-field
@@ -17,48 +17,38 @@
           @click:append="show = !show"
         ></v-text-field>
 
-        <v-btn block color="success" @click="login">
+        <v-text-field
+          v-model="password_2"
+          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="show ? 'text' : 'password'"
+          name="Repeat Password"
+          label="Repeat Password"
+          @click:append="show = !show"
+        ></v-text-field>
+
+        <v-btn block color="success" @click="createAccount">
           Login
         </v-btn>
       </v-form>
     </v-card>
-
-    <v-alert
-      :value="loginError"
-      @click="removeError"
-      dismissible
-      elevation="2"
-      colored-border
-      border="left"
-      color="error"
-    >
-      Please check your credentials and try again.
-    </v-alert>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
-  name: "Login",
+  name: "CreateAccount",
   data: () => ({
     email: "",
     password: "",
+    password_2: "",
     show: false
   }),
-  computed: {
-    ...mapGetters(["loginError"])
-  },
   methods: {
-    login() {
-      this.$store.dispatch("login", {
+    createAccount() {
+      this.$store.dispatch("createAccount", {
         email: this.email,
         password: this.password
       });
-    },
-    removeError() {
-      this.$store.dispatch("removeLoginError");
     }
   }
 };

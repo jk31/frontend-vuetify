@@ -12,6 +12,11 @@ const routes = [
     component: () => import("../views/Home.vue")
   },
   {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue")
+  },
+  {
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
@@ -21,9 +26,13 @@ const routes = [
     }
   },
   {
-    path: "/about",
-    name: "About",
-    component: () => import("../views/About.vue")
+    path: "/create_account",
+    name: "Create Account",
+    component: () => import("../views/CreateAccount.vue"),
+    beforeEnter: (to, from, next) => {
+      if (store.getters.isAuthenticated) next("/");
+      else next();
+    }
   },
   {
     path: "*",
