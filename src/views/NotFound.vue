@@ -1,11 +1,11 @@
 <template>
-  <h1>Home</h1>
+  <h1>Not Found</h1>
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
-  name: "Home"
+  name: "Not Found"
 };
 </script>
+
+<style></style>
