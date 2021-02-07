@@ -18,9 +18,6 @@
         </v-btn>
       </v-form>
     </v-card>
-    <v-btn color="success" @click="setCSRF">
-      setCSRF
-    </v-btn>
   </div>
 </template>
 
@@ -38,10 +35,6 @@ export default {
         username: this.username,
         password: this.password
       });
-    },
-    setCSRF() {
-      console.log("start setCSRF");
-      this.$store.dispatch("setCSRF");
     }
   }
 };

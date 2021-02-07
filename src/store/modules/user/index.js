@@ -1,6 +1,8 @@
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8000";
 
+import router from "@/router";
+
 const state = {
   isAuthenticated: false
 };
@@ -40,6 +42,37 @@ const actions = {
         }
       });
       context.commit("UPDATE_IS_AUTHENTICATED", true);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async logout(context) {
+    try {
+      await axios({
+        method: "get",
+        withCredentials: true,
+        url: "/api/logout/",
+        headers: {
+          Accept: "application/json"
+        }
+      });
+      context.commit("UPDATE_IS_AUTHENTICATED", false);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async session(context) {
+    try {
+      const response = await axios({
+        method: "get",
+        withCredentials: true,
+        url: "/api/session/",
+        headers: {
+          Accept: "application/json"
+        }
+      });
+      context.commit("UPDATE_IS_AUTHENTICATED", response.data.isAuthenticated);
     } catch (error) {
       console.log(error);
     }
