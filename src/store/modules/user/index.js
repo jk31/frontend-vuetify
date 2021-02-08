@@ -1,5 +1,7 @@
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 import router from "@/router";
 
@@ -19,15 +21,39 @@ const mutations = {
 
 const actions = {
   async setCSRF() {
-    const response = await axios({
-      method: "get",
-      withCredentials: true,
-      url: "/api/csrf/",
-      headers: {
-        Accept: "application/json"
-      }
-    });
-    return response.headers["x-csrftoken"];
+    console.log("2 START SETCSRF");
+    try {
+      await axios({
+        method: "get",
+        withCredentials: true,
+        url: "/api/csrf/",
+        headers: {
+          Accept: "application/json"
+        }
+      });
+      console.log("3 CSRF END");
+    } catch (error) {
+      console.log(error);
+      throw new Error("SERVER PROBLEM");
+    }
+  },
+  async session(context) {
+    try {
+      console.log("4 START SESSION");
+      const response = await axios({
+        method: "get",
+        withCredentials: true,
+        url: "/api/session/",
+        headers: {
+          Accept: "application/json"
+        }
+      });
+      console.log("5 SESSION END");
+      context.commit("UPDATE_IS_AUTHENTICATED", response.data.isAuthenticated);
+    } catch (error) {
+      console.log(error);
+      throw new Error("SERVER PROBLEM");
+    }
   },
   async login(context, payload) {
     try {
@@ -36,10 +62,10 @@ const actions = {
         withCredentials: true,
         url: "/api/login/",
         headers: {
-          "X-CSRFToken": await context.dispatch("setCSRF"),
           "Content-Type": "application/json",
           Accept: "application/json"
         },
+
         data: {
           email: payload.email,
           password: payload.password
@@ -69,21 +95,6 @@ const actions = {
       console.log(error);
     }
   },
-  async session(context) {
-    try {
-      const response = await axios({
-        method: "get",
-        withCredentials: true,
-        url: "/api/session/",
-        headers: {
-          Accept: "application/json"
-        }
-      });
-      context.commit("UPDATE_IS_AUTHENTICATED", response.data.isAuthenticated);
-    } catch (error) {
-      console.log(error);
-    }
-  },
   async createAccount(context, payload) {
     try {
       await axios({
@@ -91,7 +102,6 @@ const actions = {
         withCredentials: true,
         url: "/user/",
         headers: {
-          "X-CSRFToken": await context.dispatch("setCSRF"),
           "Content-Type": "application/json",
           Accept: "application/json"
         },
@@ -112,7 +122,6 @@ const actions = {
       withCredentials: true,
       url: "/djoser/users/me",
       headers: {
-        // "X-CSRFToken": await context.dispatch("setCSRF"),
         Accept: "application/json"
       }
     })

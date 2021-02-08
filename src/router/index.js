@@ -14,7 +14,8 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    component: () => import("../views/About.vue")
+    component: () => import("../views/About.vue"),
+    meta: { requiresAuth: true }
   },
   {
     path: "/login",
@@ -47,18 +48,32 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   // check for session on every route
-  store.dispatch("session");
 
-  // isAuthenticated guard
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters["isAuthenticated"]) {
-      next("/login");
-    } else {
-      next();
-    }
-  } else {
-    next();
+  async function sessionCSRF() {
+    console.log("1 BEFORE EACH ASYNC");
+
+    await store.dispatch("setCSRF");
+    await store.dispatch("session");
+
+    console.log("6 BEFORE EACH BEFORE IF LOGIC");
   }
+
+  sessionCSRF()
+    .then(() => {
+      console.log("7 SESSIONCSRF THEN");
+      // isAuthenticated guard
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+        console.log("8 INSIDE IF");
+        if (!store.getters["isAuthenticated"]) {
+          next("/login");
+        } else {
+          next();
+        }
+      } else {
+        next();
+      }
+    })
+    .catch(error => console.log("-1 SESSIONCSRF CATCH", error));
 });
 
 export default router;
