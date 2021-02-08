@@ -47,23 +47,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // check for session on every route
-
   async function sessionCSRF() {
-    console.log("1 BEFORE EACH ASYNC");
-
     await store.dispatch("setCSRF");
     await store.dispatch("session");
-
-    console.log("6 BEFORE EACH BEFORE IF LOGIC");
   }
 
   sessionCSRF()
     .then(() => {
-      console.log("7 SESSIONCSRF THEN");
-      // isAuthenticated guard
       if (to.matched.some(record => record.meta.requiresAuth)) {
-        console.log("8 INSIDE IF");
         if (!store.getters["isAuthenticated"]) {
           next("/login");
         } else {
@@ -73,7 +64,7 @@ router.beforeEach((to, from, next) => {
         next();
       }
     })
-    .catch(error => console.log("-1 SESSIONCSRF CATCH", error));
+    .catch(error => console.log(error));
 });
 
 export default router;

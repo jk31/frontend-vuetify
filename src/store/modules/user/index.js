@@ -21,7 +21,6 @@ const mutations = {
 
 const actions = {
   async setCSRF() {
-    console.log("2 START SETCSRF");
     try {
       await axios({
         method: "get",
@@ -31,7 +30,6 @@ const actions = {
           Accept: "application/json"
         }
       });
-      console.log("3 CSRF END");
     } catch (error) {
       console.log(error);
       throw new Error("SERVER PROBLEM");
@@ -39,7 +37,6 @@ const actions = {
   },
   async session(context) {
     try {
-      console.log("4 START SESSION");
       const response = await axios({
         method: "get",
         withCredentials: true,
@@ -48,7 +45,6 @@ const actions = {
           Accept: "application/json"
         }
       });
-      console.log("5 SESSION END");
       context.commit("UPDATE_IS_AUTHENTICATED", response.data.isAuthenticated);
     } catch (error) {
       console.log(error);
