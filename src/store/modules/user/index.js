@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:8000/api/";
+axios.defaults.baseURL = "http://localhost:8000";
 
 import router from "@/router";
 
@@ -22,7 +22,7 @@ const actions = {
     const response = await axios({
       method: "get",
       withCredentials: true,
-      url: "csrf/",
+      url: "/api/csrf/",
       headers: {
         Accept: "application/json"
       }
@@ -34,7 +34,7 @@ const actions = {
       await axios({
         method: "post",
         withCredentials: true,
-        url: "login/",
+        url: "/api/login/",
         headers: {
           "X-CSRFToken": await context.dispatch("setCSRF"),
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const actions = {
       await axios({
         method: "get",
         withCredentials: true,
-        url: "/logout/",
+        url: "/api/logout/",
         headers: {
           Accept: "application/json"
         }
@@ -74,7 +74,7 @@ const actions = {
       const response = await axios({
         method: "get",
         withCredentials: true,
-        url: "session/",
+        url: "/api/session/",
         headers: {
           Accept: "application/json"
         }
@@ -89,7 +89,7 @@ const actions = {
       await axios({
         method: "post",
         withCredentials: true,
-        url: "user/",
+        url: "/user/",
         headers: {
           "X-CSRFToken": await context.dispatch("setCSRF"),
           "Content-Type": "application/json",
@@ -105,6 +105,19 @@ const actions = {
     } catch (error) {
       console.log(error);
     }
+  },
+  me() {
+    axios({
+      method: "get",
+      withCredentials: true,
+      url: "/djoser/users/me",
+      headers: {
+        // "X-CSRFToken": await context.dispatch("setCSRF"),
+        Accept: "application/json"
+      }
+    })
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
   }
 };
 
