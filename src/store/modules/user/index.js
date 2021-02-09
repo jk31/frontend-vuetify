@@ -20,21 +20,6 @@ const mutations = {
 };
 
 const actions = {
-  async setCSRF() {
-    try {
-      await axios({
-        method: "get",
-        withCredentials: true,
-        url: "/api/csrf/",
-        headers: {
-          Accept: "application/json"
-        }
-      });
-    } catch (error) {
-      console.log(error);
-      throw new Error("SERVER PROBLEM");
-    }
-  },
   async session(context) {
     try {
       const response = await axios({
@@ -45,7 +30,10 @@ const actions = {
           Accept: "application/json"
         }
       });
-      context.commit("UPDATE_IS_AUTHENTICATED", response.data.isAuthenticated);
+      await context.commit(
+        "UPDATE_IS_AUTHENTICATED",
+        response.data.isAuthenticated
+      );
     } catch (error) {
       console.log(error);
       throw new Error("SERVER PROBLEM");
@@ -61,7 +49,6 @@ const actions = {
           "Content-Type": "application/json",
           Accept: "application/json"
         },
-
         data: {
           email: payload.email,
           password: payload.password
