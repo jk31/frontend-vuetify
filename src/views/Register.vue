@@ -2,10 +2,10 @@
   <div class="pa-md-4 mx-auto" style="max-width:600px;">
     <v-card class="pa-6" elevation="2">
       <p class="display-1 text--primary">
-        Login
+        Register
       </p>
 
-      <v-form @submit.prevent="createAccount" ref="form" lazy-validation>
+      <v-form @submit.prevent="register" lazy-validation>
         <v-text-field v-model="email" label="Email" required></v-text-field>
 
         <v-text-field
@@ -18,7 +18,7 @@
         ></v-text-field>
 
         <v-text-field
-          v-model="password_2"
+          v-model="re_password"
           :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           :type="show ? 'text' : 'password'"
           name="Repeat Password"
@@ -26,7 +26,7 @@
           @click:append="show = !show"
         ></v-text-field>
 
-        <v-btn block color="success" @click="createAccount">
+        <v-btn block color="success" @click="register">
           Login
         </v-btn>
       </v-form>
@@ -36,18 +36,19 @@
 
 <script>
 export default {
-  name: "CreateAccount",
+  name: "Register",
   data: () => ({
     email: "",
     password: "",
-    password_2: "",
+    re_password: "",
     show: false
   }),
   methods: {
-    createAccount() {
-      this.$store.dispatch("createAccount", {
+    register() {
+      this.$store.dispatch("register", {
         email: this.email,
-        password: this.password
+        password: this.password,
+        re_password: this.re_password
       });
     }
   }

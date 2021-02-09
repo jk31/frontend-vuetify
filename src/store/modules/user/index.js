@@ -1,7 +1,4 @@
-import axios from "axios";
-axios.defaults.baseURL = "http://localhost:8000";
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
+import axios from "@/axios";
 
 import router from "@/router";
 
@@ -25,15 +22,12 @@ const actions = {
       const response = await axios({
         method: "get",
         withCredentials: true,
-        url: "/api/session/",
+        url: "session/",
         headers: {
           Accept: "application/json"
         }
       });
-      await context.commit(
-        "UPDATE_IS_AUTHENTICATED",
-        response.data.isAuthenticated
-      );
+      context.commit("UPDATE_IS_AUTHENTICATED", response.data.isAuthenticated);
     } catch (error) {
       console.log(error);
       throw new Error("SERVER PROBLEM");
@@ -44,7 +38,7 @@ const actions = {
       await axios({
         method: "post",
         withCredentials: true,
-        url: "/api/login/",
+        url: "login/",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json"
@@ -68,7 +62,7 @@ const actions = {
       await axios({
         method: "get",
         withCredentials: true,
-        url: "/api/logout/",
+        url: "logout/",
         headers: {
           Accept: "application/json"
         }
@@ -78,19 +72,20 @@ const actions = {
       console.log(error);
     }
   },
-  async createAccount(context, payload) {
+  async register(context, payload) {
     try {
       await axios({
         method: "post",
         withCredentials: true,
-        url: "/user/",
+        url: "users/",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json"
         },
         data: {
           email: payload.email,
-          password: payload.password
+          password: payload.password,
+          re_password: payload.re_password
         }
       });
       //context.commit("UPDATE_IS_AUTHENTICATED", true);
@@ -103,7 +98,7 @@ const actions = {
     axios({
       method: "get",
       withCredentials: true,
-      url: "/djoser/users/me",
+      url: "users/me",
       headers: {
         Accept: "application/json"
       }

@@ -12,12 +12,8 @@
       <v-btn v-if="!isAuthenticated" class="mx-2" to="/login" color="accent"
         >Login</v-btn
       >
-      <v-btn
-        v-if="!isAuthenticated"
-        class="mx-2"
-        to="/create_account"
-        color="accent"
-        >Create Account</v-btn
+      <v-btn v-if="!isAuthenticated" class="mx-2" to="/register" color="accent"
+        >Register</v-btn
       >
       <v-btn v-if="isAuthenticated" @click="logout" class="mx-2" color="accent"
         >Logout</v-btn

@@ -27,13 +27,18 @@ const routes = [
     }
   },
   {
-    path: "/create_account",
-    name: "Create Account",
-    component: () => import("../views/CreateAccount.vue"),
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/Register.vue"),
     beforeEnter: (to, from, next) => {
       if (store.getters.isAuthenticated) next("/");
       else next();
     }
+  },
+  {
+    path: "/activate/:uid/:token",
+    name: "Activate",
+    component: () => import("../views/ActivateAccount.vue")
   },
   {
     path: "*",
