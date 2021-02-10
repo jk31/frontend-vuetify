@@ -89,7 +89,7 @@ const actions = {
         }
       });
       //context.commit("UPDATE_IS_AUTHENTICATED", true);
-      router.push("/login");
+      // router.push("/login");
     } catch (error) {
       console.log(error);
     }
