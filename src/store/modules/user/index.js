@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 import axios from "@/axios";
 
 import router from "@/router";
@@ -10,9 +12,6 @@ const state = {
 const mutations = {
   UPDATE_IS_AUTHENTICATED(state, payload) {
     state.isAuthenticated = payload;
-  },
-  UPDATE_LOGIN_ERROR(state, payload) {
-    state.loginError = payload;
   }
 };
 
@@ -51,7 +50,12 @@ const actions = {
       context.commit("UPDATE_IS_AUTHENTICATED", true);
       router.push("/");
     } catch (error) {
-      context.commit("UPDATE_LOGIN_ERROR", true);
+      Vue.notify({
+        group: "notifications",
+        type: "warn",
+        title: "Error",
+        text: "Please check your credentials."
+      });
     }
   },
   removeLoginError(context) {

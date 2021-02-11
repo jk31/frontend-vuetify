@@ -22,24 +22,10 @@
         </v-btn>
       </v-form>
     </v-card>
-
-    <v-alert
-      :value="loginError"
-      @click="removeError"
-      dismissible
-      elevation="2"
-      colored-border
-      border="left"
-      color="error"
-    >
-      Please check your credentials and try again.
-    </v-alert>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-
 export default {
   name: "Login",
   data: () => ({
@@ -47,18 +33,12 @@ export default {
     password: "",
     show: false
   }),
-  computed: {
-    ...mapGetters(["loginError"])
-  },
   methods: {
     login() {
       this.$store.dispatch("login", {
         email: this.email,
         password: this.password
       });
-    },
-    removeError() {
-      this.$store.dispatch("removeLoginError");
     }
   }
 };

@@ -1,8 +1,14 @@
 import Vue from "vue";
+import vuetify from "./plugins/vuetify";
+
+// https://github.com/euvl/vue-notification
+import Notifications from "vue-notification";
+Vue.use(Notifications);
+
 import App from "./App.vue";
+
 import router from "./router";
 import store from "./store";
-import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
