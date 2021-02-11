@@ -21,37 +21,30 @@
           Login
         </v-btn>
       </v-form>
+      <userErrorAlert
+        error="loginError"
+        errorText="Please check your credentials."
+      />
     </v-card>
-
-    <v-alert
-      :value="userErrors('loginError')"
-      @click="removeUserError({ error: 'loginError' })"
-      dismissible
-      elevation="2"
-      colored-border
-      border="left"
-      color="error"
-    >
-      Please check your credentials and try again.
-    </v-alert>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
+import userErrorAlert from "@/components/userErrorAlert";
 
 export default {
   name: "Login",
+  components: {
+    userErrorAlert
+  },
   data: () => ({
     email: "",
     password: "",
     show: false
   }),
-  computed: {
-    ...mapGetters(["userErrors"])
-  },
   methods: {
-    ...mapActions(["login", "removeUserError"])
+    ...mapActions(["login"])
   }
 };
 </script>

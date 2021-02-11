@@ -5,7 +5,9 @@ import router from "@/router";
 const state = {
   isAuthenticated: false,
   userErrors: {
-    loginError: false
+    loginError: false,
+    registerError: false,
+    activationError: false
   }
 };
 
@@ -20,7 +22,7 @@ const mutations = {
 
 const actions = {
   removeUserError(context, payload) {
-    context.commit("UPDATE_USER_ERROR", payload.error);
+    context.commit("UPDATE_USER_ERROR", payload);
   },
   async session(context) {
     try {
