@@ -1,3 +1,5 @@
+import { Notify } from "quasar";
+
 import axios from "@/axios";
 
 import router from "@/router";
@@ -51,7 +53,12 @@ const actions = {
       context.commit("UPDATE_IS_AUTHENTICATED", true);
       router.push("/");
     } catch (error) {
-      context.commit("UPDATE_LOGIN_ERROR", true);
+      console.log(error);
+      Notify.create({
+        type: "warning",
+        message: "Incorrect email or password.",
+        progress: true
+      });
     }
   },
   removeLoginError(context) {
