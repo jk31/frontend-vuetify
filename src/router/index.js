@@ -55,15 +55,14 @@ router.beforeEach((to, from, next) => {
   async function sessionCheck() {
     try {
       await store.dispatch("session");
+
+      // Route Guard
       if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!store.getters["isAuthenticated"]) {
           next("/login");
-        } else {
-          next();
         }
-      } else {
-        next();
       }
+      next();
     } catch (error) {
       console.log(error);
     }
