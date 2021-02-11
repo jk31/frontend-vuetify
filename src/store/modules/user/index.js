@@ -4,19 +4,24 @@ import router from "@/router";
 
 const state = {
   isAuthenticated: false,
-  loginError: false
+  userErrors: {
+    loginError: false
+  }
 };
 
 const mutations = {
   UPDATE_IS_AUTHENTICATED(state, payload) {
     state.isAuthenticated = payload;
   },
-  UPDATE_LOGIN_ERROR(state, payload) {
-    state.loginError = payload;
+  UPDATE_USER_ERROR(state, payload) {
+    state.userErrors[payload] = !state.userErrors[payload];
   }
 };
 
 const actions = {
+  removeUserError(context, payload) {
+    context.commit("UPDATE_USER_ERROR", payload.error);
+  },
   async session(context) {
     try {
       const response = await axios({
@@ -51,11 +56,8 @@ const actions = {
       context.commit("UPDATE_IS_AUTHENTICATED", true);
       router.push("/");
     } catch (error) {
-      context.commit("UPDATE_LOGIN_ERROR", true);
+      context.commit("UPDATE_USER_ERROR", "loginError");
     }
-  },
-  removeLoginError(context) {
-    context.commit("UPDATE_LOGIN_ERROR", false);
   },
   async logout(context) {
     try {
@@ -110,7 +112,7 @@ const actions = {
 
 const getters = {
   isAuthenticated: state => state.isAuthenticated,
-  loginError: state => state.loginError
+  userErrors: state => error => state.userErrors[error]
 };
 
 const userModule = {

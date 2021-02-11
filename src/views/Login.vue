@@ -5,7 +5,7 @@
         Login
       </p>
 
-      <v-form @submit.prevent="login" lazy-validation>
+      <v-form @submit.prevent="login({ email, password })" lazy-validation>
         <v-text-field v-model="email" label="Email" required></v-text-field>
 
         <v-text-field
@@ -17,15 +17,15 @@
           @click:append="show = !show"
         ></v-text-field>
 
-        <v-btn block color="success" @click="login">
+        <v-btn block color="success" @click="login({ email, password })">
           Login
         </v-btn>
       </v-form>
     </v-card>
 
     <v-alert
-      :value="loginError"
-      @click="removeError"
+      :value="userErrors('loginError')"
+      @click="removeUserError({ error: 'loginError' })"
       dismissible
       elevation="2"
       colored-border
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Login",
@@ -48,18 +48,10 @@ export default {
     show: false
   }),
   computed: {
-    ...mapGetters(["loginError"])
+    ...mapGetters(["userErrors"])
   },
   methods: {
-    login() {
-      this.$store.dispatch("login", {
-        email: this.email,
-        password: this.password
-      });
-    },
-    removeError() {
-      this.$store.dispatch("removeLoginError");
-    }
+    ...mapActions(["login", "removeUserError"])
   }
 };
 </script>
