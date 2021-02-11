@@ -27,7 +27,7 @@
         ></v-text-field>
 
         <v-btn block color="success" @click="register">
-          Login
+          Register
         </v-btn>
       </v-form>
     </v-card>
